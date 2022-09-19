@@ -4,6 +4,7 @@ volumes:
   influxdb_data: {}
   postgres_data: {}
   grafana_data: {}
+  vuegraf_cfg:  {}
 
 networks:
   influx:
@@ -85,3 +86,16 @@ services:
       - grafana_data:/var/lib/grafana
       - ./grafana/provisioning:/etc/grafana/provisioning
       - ./grafana/dashboards:/etc/dashboards
+
+  vuegraf:
+    image: jertel/vuegraf:latest
+    profiles: ["grafana"]
+    container_name: vuegraf
+    depends_on:
+      - influxdb
+    volumes:
+      - vuegraf_cfg:/opt/vuegraf/conf 
+      #This assumes you have created a folder called vuegraf and placed the vuegraf.json file inside of it.
+    restart: always #This is necessary or vuegraf will not connect to InfluxDB, due to the fact that the call needs to wait. 
+                    #Similar could be done by adding 'sleep' in docker-compose-run.sh but requires separating the services into different yaml files.
+    
