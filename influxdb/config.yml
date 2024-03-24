@@ -26,7 +26,7 @@ query-memory-bytes: 9223372036854775807
 query-queue-size: 1024
 reporting-disabled: false
 secret-store: bolt
-session-length: 60
+session-length: 432000
 session-renew-disabled: false
 sqlite-path: ""
 storage-cache-max-memory-size: 1073741824
